@@ -1,9 +1,33 @@
 <template>
-  <h1>This is the home page</h1>
+  <div id="HomePage" class="container">
+    <CompanyList :companies="companies" />
+  </div>
 </template>
 
 <script>
-export default {
-  name: 'home',
-};
+  import API from '../services/CompanyService';
+  import CompanyList from '../components/CompanyList';
+
+  export default {
+    name: 'home',
+    data() {
+      return {
+        companies: [],
+      };
+    },
+    async created() {
+      const companies = await API.getAll();
+      this.companies = companies;
+    },
+    components: {
+      CompanyList,
+    }
+  }
 </script>
+
+<style scoped lang="scss">
+  #HomePage {
+    padding: 20px 60px;
+    box-sizing: border-box;
+  }
+</style>
