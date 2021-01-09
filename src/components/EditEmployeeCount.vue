@@ -1,17 +1,24 @@
 <template>
   <form class="field" @submit.prevent="onSaveForm">
-    <label>Employee Count</label>
-    <div class="control">
-      <input class="input" type="number" :value="count" @input="onUpdate" />
-    </div>
+    <FormField
+      label="Employee Count"
+      type="number"
+      :value="count"
+      fieldName="newCount"
+      @change="onUpdate"
+    />
     <button class="button is-success" type="submit">Save Changes</button>
     <button class="button" type="button" @click="onCancel">Cancel</button>
   </form>
 </template>
 
 <script>
+import FormField from './FormField.vue';
   export default {
     name: 'EditEmployeeCount',
+    components: {
+      FormField,
+    },
     props: ['count'],
     data() {
       return {
@@ -26,8 +33,8 @@
         this.newCount = this.count;
         this.$emit('cancel');
       },
-      onUpdate(e) {
-        this.newCount = e.target.value;
+      onUpdate({ fieldName, value }) {
+        this[fieldName] = value;
       }
     },
   }
